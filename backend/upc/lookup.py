@@ -35,6 +35,3 @@ def get_cheapest_price_data(upc_data):
             item = offer
     return item
         
-
-upc_data = search_upc("040000424314")
-print(get_cheapest_price_data(upc_data).get('price'))
