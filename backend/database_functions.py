@@ -4,8 +4,9 @@ client = MongoClient(atlas_key) # throw the atlas connection string into this bi
 db = client.hacknyu2020
 
 users = db.users # has the blacklists and transactions.
-stores = db.stores 
-items = db.items
+stores = db.stores # stores
+items = db.items # Items. Their names and UPCs
+categories = db.categories # Item categories
 
 # Database access and Operations/
 
@@ -17,12 +18,14 @@ items = db.items
 # first_name: str - the users first name
 # last_name: str - the users last name
 # password: password - user's chosen password. Hopefully we can just store a hash or some shit
-def makeUser(email, first_name, last_name, password):
+def makeUser(email, first_name, last_name, password, pub_key, priv_key):
     #bop
 
     new_user = { "email": email,
                 "first_name": first_name,
                 "last_name": last_name,
+                "public_key": public_key,
+                "private_key": private_key 
                 "blacklist_items": { },
                 "blacklist_categories": { },
                 "transactions": [] }
@@ -74,6 +77,11 @@ def addBlacklistCategory(user, category_id):
     # bop the fourth
     user.blacklist_categories[category_id]
 
+def isItemBlacklisted(user, item_id):
+    # bop four point 33
+    
+
+
 # user: above ditto
 # item_id: above ditto
 def removeBlacklistItem(user, item_id):
@@ -82,9 +90,9 @@ def removeBlacklistItem(user, item_id):
 
 # user: above ditto
 # category_id: above ditto
-def removeBlacklistCategory(user, category):
+def removeBlacklistCategory(user, category_id):
     # hexabop
-
+    del user.blacklist_categories[category_id]
 
 
 # ============
@@ -93,11 +101,14 @@ def removeBlacklistCategory(user, category):
 
 # name: str -  the item's name, examples being "Aunt Jemima Original Pancake & Waffle Mix - 1 lb", or "Funko POP! Star Wars - The Child (Baby Yoda)"
 # upcs: a dict of strs - a dictionary of strings representing the upcs associated with the given item
-def addItem(name, upcs):
+def addItem(name, upcs, categories):
     # septabop
+
+
     new_item = {
         "name": name,
-        "upcs": upcs
+        "upcs": upcs,
+        "categories": categories 
     }
 
     items.insert_one(new_item)
@@ -114,12 +125,16 @@ def addItem(name, upcs):
 # -----
 # name: str - the name of the given store
 def addStore(name):
+    # 
     # восим боп
 
-    new_store = {
-        "name": name,
-        "items": {} # she a map since it might be more logical to have that (perhaps) O(1) here.
-    }
+    if stores.find_one({"name": name}):
+        print("Can't INSERT store, already exists!")
+    else:
+        new_store = {
+            "name": name,
+            "items": {} # she a map since it might be more logical to have that (perhaps) O(1) here.
+        }
 
 # store: store doc - the actual store document from the DB.
 # item_id: object id - the object id of the item to be added.
@@ -130,4 +145,25 @@ def addStoreItem(store, item_id, price):
     store.items[item_id] = price
     
 
+# ================
+# Category Centric
+# ================
+
+# name: str - The category, in string form (instead of conceptual/abstract form0)
+def addCategory(name):
+
+    name = name.lower()
+    if categories.find_one({"name": name}):
+        print("Can't INSERT category, already exists!")
+    else:
+        new_category = {
+            "name": name
+        }
+
+        categories.insert_one(new_category)
+
+# NOTE: Name may not be the best way to search. Still figuring out the exact use case.
+def getCategory(name):
+    category = categories.find_one({"name": name})
+    return category
 
