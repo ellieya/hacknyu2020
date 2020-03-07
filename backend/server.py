@@ -1,5 +1,6 @@
 import flask
 import json
+from signup import sign_up
 
 app = flask.Flask(__name__)
 app.config["DEBUG"] = True
@@ -32,6 +33,10 @@ def signup():
     if request.method == 'POST':
         req_data = request.get_json()
         # Do stuff with that info, like do the input validation and then add the user to the DB
+        try:
+            sign_up(password1, password2)
+        except:
+            pass
         return json.dumps({"message": "Signup Complete"})
     if request.method == 'GET':
         # prolly just display the page?
