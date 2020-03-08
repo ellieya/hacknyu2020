@@ -88,35 +88,44 @@ def addTransaction(user_id, timestamp, cost_balance, savings_balance, vendor, it
 
 # user: user document - the user in question
 # item_id: item document id - the item id of the given item document
-def addBlacklistItem(user, item_id):
+def addBlacklistItem(user, item):
     # bop the third
 
-    user.blacklist_items[item_id]
+    user.blacklist_items[item] = True 
 
 
 # user: above ditto
 # category_id: the category doc id - the objectid of the given category document
-def addBlacklistCategory(user, category_id):
+def addBlacklistCategory(user, category):
     # bop the fourth
-    user.blacklist_categories[category_id]
+    user.blacklist_categories[category] = True
 
-def isItemBlacklisted(user, item_id):
-    pass
+def isCategoryBlacklisted(user, category):
+    if category in user.blacklist_categories:
+        return True
+    else:
+        return False
+
+def isItemBlacklisted(user, item):
     # bop four point 33
+    if item_id in user.blacklist_items:
+        return True
+    else:
+        return False
     
 
 
 # user: above ditto
 # item_id: above ditto
-def removeBlacklistItem(user, item_id):
+def removeBlacklistItem(user, item):
     # bop five
-    del user.blacklist_items[item_id]
+    del user.blacklist_items[item]
 
 # user: above ditto
 # category_id: above ditto
-def removeBlacklistCategory(user, category_id):
+def removeBlacklistCategory(user, category):
     # hexabop
-    del user.blacklist_categories[category_id]
+    del user.blacklist_categories[category]
 
 
 # ============
@@ -191,3 +200,4 @@ def getCategory(name):
     category = categories.find_one({"name": name})
     return category
 
+ 
