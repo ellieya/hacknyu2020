@@ -39,10 +39,10 @@ def signup():
             auth_data = sign_up(password1, password2)
             result = makeUser(req_data["email"], req_data["first_name"], req_data["last_name"], auth_data[0], auth_data[1][0], auth_data[1][1])
             if result == "Insertion Error":
-                raise Exception(result)
+                raise Exception(result)  
 
-
-        except:
+        except Exception as e:
+            print(e)
             return json.dumps({"error_message": "Password Mismatch"})
             pass
         return json.dumps({"message": "Signup Complete"})
@@ -51,17 +51,20 @@ def signup():
         bottom_text = "bottomtext"
     return
 
-@app.route('/login', methods=['POST'])
+@app.route('/login', methods=['POST', 'GET'])
 def login():
     if request.method == 'POST':
         req_data = request.get_json()
         # Again do stuff with the info passed in
         try:
             result = login(req_data["email"], req_data["password"])
-        except:
+        except Exception as e:
+            print(e)
             return json.dumps({"error_message": "Sign In Error"})
         return json.dumps({"message": "Loggin in!"}) # This may not even be the way to do it but we will figure it out
-
+    if request.method == 'GET':
+        return """<h1> Fields are email and password </h1>"""
+        
 # Expected Arguments
 # timestamp - date, or a string
 # user_id - the Id of the given user, to pull/insert into their transactions
