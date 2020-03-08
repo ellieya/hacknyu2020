@@ -18,12 +18,13 @@ categories = db.categories # Item categories
 # first_name: str - the users first name
 # last_name: str - the users last name
 # password: password - user's chosen password. Hopefully we can just store a hash or some shit
-def makeUser(email, first_name, last_name, password, pub_key, priv_key):
+def makeUser(email, first_name, last_name, password_hash, pub_key, priv_key):
     #bop
 
     new_user = { "email": email,
                 "first_name": first_name,
                 "last_name": last_name,
+                "password_hash": password_hash,
                 "public_key": public_key,
                 "private_key": private_key 
                 "blacklist_items": { },
@@ -31,13 +32,19 @@ def makeUser(email, first_name, last_name, password, pub_key, priv_key):
                 "transactions": [] }
 
 
-    users.insert_one(new_user)
+    try:
+        result = users.insert_one(new_user)
+        print(result.inserted_id)
+        return result.inserted_id
+    except:
+        return "Insertion Issue"
+
 
 
 # not fully sure what that something is - if its the user's id or the user document itself
-def getUser(something):
+def getUser(email):
 
-    user = users.find_one({"something":something})
+    user = users.find_one({"email": email})
     return user
 
 # user: user object  - the user themself

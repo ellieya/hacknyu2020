@@ -1,6 +1,7 @@
 import flask
 import json
-from signup import sign_up
+from auth import sign_up, login
+from database_functions import *
 
 app = flask.Flask(__name__)
 app.config["DEBUG"] = True
@@ -34,8 +35,14 @@ def signup():
         req_data = request.get_json()
         # Do stuff with that info, like do the input validation and then add the user to the DB
         try:
-            sign_up(password1, password2)
+            auth_data = sign_up(password1, password2)
+            result = makeUser(req_data["email"], req_data["first_name"], req_data["last_name"], auth_data[0], auth_data[1][0], auth_data[1][1])
+            if result == "Insertion Error":
+                raise Exception(result)
+
+
         except:
+            return json.dumps({"error_message": "Password Mismatch"})
             pass
         return json.dumps({"message": "Signup Complete"})
     if request.method == 'GET':
@@ -48,8 +55,11 @@ def login():
     if request.method == 'POST':
         req_data = request.get_json()
         # Again do stuff with the info passed in
+        try:
+            result = login(req_data["email"], req_data["password"])
+        except:
+            return json.dumps({"error_message": "Sign In Error"})
         return json.dumps({"message": "Loggin in!"}) # This may not even be the way to do it but we will figure it out
-    return
 
 # Expected Arguments
 # timestamp - date, or a string
