@@ -1,0 +1,5 @@
+Flask
+Werkzeug
+Requests
+Pymongo
+stellar_sdk
