@@ -13,7 +13,7 @@ app.config["DEBUG"] = True
 
 @app.route('/', methods=['GET'])
 def landing():
-    return 
+    return """<h1>Da Landing</h1>"""
 
 
 @app.route('/dashboard', methods=['GET'])
