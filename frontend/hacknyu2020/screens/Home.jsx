@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, Button } from 'react-native';
+import { StyleSheet, Text, View, Button, Image} from 'react-native';
 import styles from './../styles';
 import { connect } from "react-redux";
 import { userUpdateLoginStatus } from './../redux/actions';
@@ -33,10 +33,10 @@ class Home extends React.Component {
                 return json.joke;
             })
 
-            this.setState({
-                loading: false,
-                dadJoke
-            })
+        this.setState({
+            loading: false,
+            dadJoke
+        })
 
     }
 
@@ -46,9 +46,15 @@ class Home extends React.Component {
         } else {
             return (
                 <View style={styles.container}>
-                    <Text> {this.props.user.info.loginMethod == "login" ? "Welcome back, " : "Welcome, "}{this.props.user.info.firstName}!</Text>
-                    <Text>{this.state.dadJoke}</Text>
-                    <Text>...aaanyways, slide in from the left to get started!</Text>
+                    <View style={styles.pointsView}>
+                        <Text style={styles.pointsText}>335</Text>
+                    </View>
+                    <Text style={styles.h1}> {this.props.user.info.loginMethod == "login" ? "Welcome back, " : "Welcome, "}{this.props.user.info.firstName}!</Text>
+                    <View style={styles.dadJokeContainer}>
+                        <Text style={styles.dadJoke}>{this.state.dadJoke}</Text>
+                    </View>
+                    <Image source={require('./../img/happycat.png')}/>
+                    <Text style={styles.someSpace}>...aaanyways, slide in from the left to get started!</Text>
                     <Button title="I want another terrible joke"
                         onPress={async () => {
                             this.setState({

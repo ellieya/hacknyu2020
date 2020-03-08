@@ -44,7 +44,11 @@ class ActualApp extends React.Component {
     render() {
         return (
             <NavigationContainer>
-                <Stack.Navigator>
+                <Stack.Navigator
+                    screenOptions={{
+                        headerShown: false
+                    }}
+                >
                     {this.props.user.loginStatus ? <Stack.Screen name="Home" component={LoggedInMenu} /> : <Stack.Screen name="Landing" component={Landing} />}
                     <Stack.Screen name="Table of Contents" component={TableOfContents} />{/* comment this line out for final release */}
                     <Stack.Screen name="Login" component={Login} />

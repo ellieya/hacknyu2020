@@ -25,7 +25,6 @@ class Login extends React.Component {
         }
 
         //if success
-        Alert.alert("Welcome back, " + returnResult.firstName + "!");
         this.props.userUpdateLoginStatus();
         this.props.userUpdateBasicInformation({
             firstName: returnResult.firstName,
@@ -39,7 +38,7 @@ class Login extends React.Component {
     render() {
         return (
             <View style={styles.container}>
-                <Text>Welcome back!</Text>
+                <Text style={styles.h1}>Welcome back!</Text>
                 <Text>Email</Text>
                 <TextInput
                     autoCompleteType="email"

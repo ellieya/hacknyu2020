@@ -1,10 +1,13 @@
 import React from 'react';
-import { Text } from 'react-native';
+import { View, Text } from 'react-native';
+import styles from './../styles';
 
-export default class Loading extends React.Component{
+export default class Loading extends React.Component {
     render() {
         return (
-            <Text>Loading</Text>
+            <View style={styles.container}>
+                <Text>Loading</Text>
+            </View>
         )
     }
 }

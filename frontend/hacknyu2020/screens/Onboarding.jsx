@@ -34,8 +34,9 @@ class Onboarding extends React.Component {
     }
 
     dataValidation() {
+        console.log(this.stateToValidate);
         if (this.state.stage !== 2) {
-            for (attributeKey of this.stateToValidate[this.state.stage]) {
+            for (let attributeKey of this.stateToValidate[this.state.stage]) {
                 if (this.state[attributeKey] === "") {
                     throw attributeKey.toUpperCase() + " should not be empty!";
                 } else {
@@ -61,7 +62,7 @@ class Onboarding extends React.Component {
         switch (this.state.stage) {
             case 0:
                 return (
-                    <View>
+                    <View style={styles.container}>
                         <Text>{"\n"}What's your name?</Text>
                         <Text>First Name</Text>
                         <TextInput
@@ -81,7 +82,7 @@ class Onboarding extends React.Component {
                 );
             case 1:
                 return (
-                    <View>
+                    <View style={styles.container}>
                         <Text>Hi {this.state.firstName}!{"\n"}Just need a little bit more information before we get started.</Text>
                         <Text>Email</Text>
                         <TextInput
@@ -110,12 +111,11 @@ class Onboarding extends React.Component {
                 );
             case 2:
                 return (
-                    <View>
+                    <View style={styles.container}>
                         <Text>Does this information look correct?</Text>
                         <Text>First name: {this.state.firstName}</Text>
                         <Text>Last name: {this.state.lastName}</Text>
                         <Text>Email address: {this.state.email}</Text>
-                        <Text>Password: {this.state.showPassword ? this.state.password : this.generatePasswordAsterisks(this.state.password.length)}</Text>
                     </View>
                 )
         }
@@ -132,10 +132,6 @@ class Onboarding extends React.Component {
                             this.dataValidation()
                             if (this.state.stage === 2) {
                                 //This should display a modal
-                                Alert.alert(
-                                    "WELCOME!",
-                                    this.state.firstName + ", welcome to Save it UP!"
-                                )
                                 this.props.userUpdateLoginStatus();
                                 this.props.userUpdateBasicInformation({
                                     email: this.state.email,

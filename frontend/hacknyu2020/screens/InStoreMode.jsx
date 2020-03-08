@@ -34,7 +34,7 @@ class InStoreMode extends React.Component {
         //Push onto items list
         let tempItemsList = this.state.itemsList;
         tempItemsList.push({
-            
+
             upc: data
         });
 
@@ -65,32 +65,39 @@ class InStoreMode extends React.Component {
                     <View style={styles.container}>
                         <Text>You don't seem to be close to a store right now...</Text>
                         <Text>We'll let you know when you are!</Text>
-                        <Button title="Cheat the system"
-                            onPress={
-                                this.setState({
-                                    mode: "cart"
-                                })
-                            }
-                        />
+                        <View>
+                            <Button title="Cheat the system"
+                                onPress={
+                                    this.setState({
+                                        mode: "cart"
+                                    })
+                                }
+                            />
+                        </View>
                     </View>
                 )
             case "cart":
                 return (
                     <View style={styles.container}>
-                        {this.printItemsList()}
-                        <Button title="Scan"
-                            onPress={() => {
-                                this.setState({
-                                    mode: "scan"
-                                })
-                            }}
-                        />
-                        <Button title="Checkout"
-                            onPress={() => {
-                                this.setState({
-                                    mode: "checkout"
-                                })
-                            }} />
+                        <View style={styles.cart}>
+                        <Text style={styles.h1}>Cart</Text>
+                            {this.printItemsList()}
+                        </View>
+                        <View style={styles.buttonInline}>
+                            <Button title="Scan"
+                                onPress={() => {
+                                    this.setState({
+                                        mode: "scan"
+                                    })
+                                }}
+                            />
+                            <Button title="Checkout"
+                                onPress={() => {
+                                    this.setState({
+                                        mode: "checkout"
+                                    })
+                                }} />
+                        </View>
                     </View>
                 )
             case "scan":
