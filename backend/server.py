@@ -50,16 +50,18 @@ def signup():
         bottom_text = "bottomtext"
     return
 
-@app.route('/login', methods=['POST'])
+@app.route('/login', methods=['POST', 'GET'])
 def login():
     if request.method == 'POST':
         req_data = request.get_json()
         # Again do stuff with the info passed in
         try:
             result = login(req_data["email"], req_data["password"])
-        except:
+        except Exception as e:
+            print(e)
             return json.dumps({"error_message": "Sign In Error"})
         return json.dumps({"message": "Loggin in!"}) # This may not even be the way to do it but we will figure it out
+    if request.method == 'GET':
 
 # Expected Arguments
 # timestamp - date, or a string
