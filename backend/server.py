@@ -1,4 +1,3 @@
-#import flask
 from flask import Flask, request
 import json
 from auth import sign_up
@@ -6,7 +5,7 @@ import auth
 from database_functions import *
 
 app = Flask(__name__)
-app.config["DEBUG"] = False
+app.config["DEBUG"] = True
 
 # what is needed
 
@@ -33,18 +32,20 @@ def dashboard():
 @app.route('/signup', methods=['POST', 'GET'])
 def signup():
     # Could dict map this but does it really matter?
+    print(request)
     if request.method == 'POST':
         req_data = request.get_json()
+        print(req_data)
         # Do stuff with that info, like do the input validation and then add the user to the DB
         try:
-            auth_data = sign_up(password1, password2)
+            auth_data = sign_up(req_data["password"], req_data["password2"])
             result = makeUser(req_data["email"], req_data["first_name"], req_data["last_name"], auth_data[0], auth_data[1][0], auth_data[1][1])
             if result == "Insertion Error":
                 raise Exception(result)  
 
         except Exception as e:
             print(e)
-            return json.dumps({"error_message": "Password Mismatch"})
+            return json.dumps({"error_message": e})
             pass
         return json.dumps({"message": "Signup Complete"})
     if request.method == 'GET':
@@ -77,6 +78,12 @@ def login():
 @app.route('/transaction', methods=['POST'])
 def sendTransaction():
     req_data = request.get_json()
+
+    timestamp = req_data["timestamp"]
+    user_id = req_data["user_id"]
+    cost_balance = req_data["cost_balance"]
+    savings_balance = req_data["savings_balance"]
+    items_purchased = ""
 
     
     return
