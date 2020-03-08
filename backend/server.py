@@ -1,6 +1,7 @@
 from flask import Flask, request
 import json
 from auth import sign_up, log_in
+from lookup import *
 
 from database_functions import *
 
@@ -95,5 +96,20 @@ def sendTransaction():
 
     
     return
+
+@app.route('/addtoblock', methods=['POST'])
+def addToBlock():
+    req_data = request.get_jason()
+
+    if request.method == 'POST':
+        req_data = request.get_json()
+    
+    try:
+        upc_data = search_upc(req_data['upc'])
+        blocked_category = get_category(upc_data)
+        user = getUser('email')
+        ##add blocked_catigory to mongodb
+        
+
     
 app.run()
