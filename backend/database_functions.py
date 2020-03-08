@@ -26,7 +26,7 @@ def makeUser(email, first_name, last_name, password_hash, pub_key, priv_key):
                 "last_name": last_name,
                 "password_hash": password_hash,
                 "public_key": public_key,
-                "private_key": private_key 
+                "private_key": private_key, 
                 "blacklist_items": { },
                 "blacklist_categories": { },
                 "transactions": [] }
@@ -85,6 +85,7 @@ def addBlacklistCategory(user, category_id):
     user.blacklist_categories[category_id]
 
 def isItemBlacklisted(user, item_id):
+    pass
     # bop four point 33
     
 
