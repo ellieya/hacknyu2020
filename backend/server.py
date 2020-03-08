@@ -2,11 +2,10 @@ from flask import Flask, request
 import json
 from auth import sign_up, log_in
 from lookup import *
-
 from database_functions import *
 
 app = Flask(__name__)
-app.config["DEBUG"] = True
+app.config["DEBUG"] = False
 
 # what is needed
 
@@ -93,10 +92,11 @@ def sendTransaction():
     cost_balance = req_data["cost_balance"]
     savings_balance = req_data["savings_balance"]
     items_purchased = ""
-
+    
     
     return
 
+'''
 @app.route('/addtoblock', methods=['POST'])
 def addToBlock():
     req_data = request.get_jason()
@@ -109,9 +109,30 @@ def addToBlock():
         blocked_category = get_category(upc_data)
         user = getUser('email')
         ##add blocked_catigory to mongodb
-        
+        pass
+'''
+
+@app.route('/isitemblocked', methods=['POST'])
+def isBlocked():
+    req_data = request.get_json()
+
+    if request.method == 'POST':
+        req_data = request.get_json()
+    
+    try:
+        upc_data = search_upc(req_data['upc'])
+        blocked_category = get_category(upc_data)
+        user = getUser('email')
+    except Exception as e:
+            print(e)
+            return json.dumps({"error_message": e})
+    
+
+
+'''
 @app.route('/maketransaction')
 def makeTransaction():
     pass
-    
-app.run()
+'''
+
+app.run(host='0.0.0.0')
