@@ -42,10 +42,19 @@ def makeUser(email, first_name, last_name, password_hash, public_key, private_ke
 
 
 # not fully sure what that something is - if its the user's id or the user document itself
-def getUser(email):
+def getUserByEmail(email):
 
     user = users.find_one({"email": email})
     return user
+
+def getUserById(user_id):
+    user = users.find_one({"_id": user_id})
+    return user
+
+def getPublicKey(user_id):
+    user = getUserById(user_id)
+    return user["public_key"]
+
 
 # timestamp - date, or a string
 # user_id - the Id of the given user, to pull/insert into their transactions

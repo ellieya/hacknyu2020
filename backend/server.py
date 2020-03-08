@@ -2,6 +2,7 @@ from flask import Flask, request
 import json
 from auth import sign_up, log_in
 from lookup import *
+from getinfo import get_points
 from database_functions import *
 
 app = Flask(__name__)
@@ -53,13 +54,8 @@ def signup():
         bottom_text = "bottomtext"
     return
 
-# timestamp - date, or a string
-# user_id - the Id of the given user, to pull/insert into their transactions
-# cost_balance - number, the total of items actually purchased
-# savings_balance - number, the total of the items not purchased
-# vendor - string - the vendor or store where the transaction was made
-# items_purchased - array of dicts/jsons/maps containing {upc, item_name, unit_cost, total_cost}
-# unpurchased_items - an array of dicts/jsons/maps containing {upc, item_name, unit_cost, total_cost}
+# email: str - user's email
+# password: str - hopefully the user's password
 @app.route('/login', methods=['POST', 'GET'])
 def login():
     if request.method == 'POST':
@@ -128,11 +124,33 @@ def isBlocked():
             return json.dumps({"error_message": e})
     
 
+# user_id - objectid - The object id of the user whose points balance is being queried.
+@app.route('/points', methods=['GET'])
+def fetchPoints():
+    user_id = request.args.get('user_id')
+    pk = getPublicKey(user_id)
+    points_balance = get_points(pk)
+
+    return json.dumps({"points_balance": points_balance})
+
+
 
 '''
 @app.route('/maketransaction')
 def makeTransaction():
     pass
 '''
+@app.route('/item', methods=['GET'])
+def getItem():
+    upc = request.args.get("upc")
+    # if not in store, get cheapest price as price.
+    
+    # Then we pass it
+    return json.dumps({"scanned_item":item,
+                        "alt_item": alt_item})
 
-app.run(host='0.0.0.0')
+
+if __name__ == '__main__':
+    # run!
+    app.run()
+#app.run(host='0.0.0.0')
