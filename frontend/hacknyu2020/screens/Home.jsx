@@ -47,6 +47,7 @@ class Home extends React.Component {
             return (
                 <View style={styles.container}>
                     <View style={styles.pointsView}>
+                        <Image style={styles.pointsImg} source={require('./../img/points.png')}/>
                         <Text style={styles.pointsText}>335</Text>
                     </View>
                     <Text style={styles.h1}> {this.props.user.info.loginMethod == "login" ? "Welcome back, " : "Welcome, "}{this.props.user.info.firstName}!</Text>
@@ -54,7 +55,8 @@ class Home extends React.Component {
                         <Text style={styles.dadJoke}>{this.state.dadJoke}</Text>
                     </View>
                     <Image source={require('./../img/happycat.png')}/>
-                    <Text style={styles.someSpace}>...aaanyways, slide in from the left to get started!</Text>
+                    <Text>...aaanyways,</Text>
+                    <Text style={styles.importantText}>Slide in from the left to get started!</Text>
                     <Button title="I want another terrible joke"
                         onPress={async () => {
                             this.setState({

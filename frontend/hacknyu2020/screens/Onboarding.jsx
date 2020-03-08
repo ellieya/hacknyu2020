@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, View, Button, TextInput, Alert } from 'react-native';
+import { Text, View, Button, TextInput, Alert, KeyboardAvoidingView } from 'react-native';
 import styles from './../styles';
 import { connect } from "react-redux";
 import { userUpdateLoginStatus, userUpdateBasicInformation } from './../redux/actions';
@@ -62,8 +62,8 @@ class Onboarding extends React.Component {
         switch (this.state.stage) {
             case 0:
                 return (
-                    <View style={styles.container}>
-                        <Text>{"\n"}What's your name?</Text>
+                    <KeyboardAvoidingView style={styles.container} behavior="padding">
+                        <Text style={styles.h1}>{"\n"}What's your name?</Text>
                         <Text>First Name</Text>
                         <TextInput
                             autoCompleteType="name"
@@ -78,12 +78,12 @@ class Onboarding extends React.Component {
                             value={this.state.lastName}
                             onChangeText={text => this.setState({ lastName: text })}
                         />
-                    </View>
+                    </KeyboardAvoidingView>
                 );
             case 1:
                 return (
-                    <View style={styles.container}>
-                        <Text>Hi {this.state.firstName}!{"\n"}Just need a little bit more information before we get started.</Text>
+                    <KeyboardAvoidingView style={styles.container} behavior="padding">
+                        <Text style={styles.h1}>Hi {this.state.firstName}!{"\n"}Just need a little bit more information before we get started.</Text>
                         <Text>Email</Text>
                         <TextInput
                             autoCompleteType="email"
@@ -107,7 +107,7 @@ class Onboarding extends React.Component {
                             value={this.state.cpassword}
                             onChangeText={text => this.setState({ cpassword: text })}
                         />
-                    </View>
+                    </KeyboardAvoidingView>
                 );
             case 2:
                 return (
@@ -124,43 +124,44 @@ class Onboarding extends React.Component {
     render() {
         return (
             <View style={styles.container}>
-                <Text>Onboarding</Text>
                 {this.createContentForStage()}
-                <Button title={this.state.buttonValue}
-                    onPress={() => {
-                        try {
-                            this.dataValidation()
-                            if (this.state.stage === 2) {
-                                //This should display a modal
-                                this.props.userUpdateLoginStatus();
-                                this.props.userUpdateBasicInformation({
-                                    email: this.state.email,
-                                    firstName: this.state.firstName,
-                                    lastName: this.state.lastName,
-                                    loginMethod: "register"
-                                })
-                                this.props.navigation.popToTop();
-                            } else {
-                                let newStageValue = this.state.stage + 1;
-                                this.setState({
-                                    stage: newStageValue
-                                })
-
-                                if (newStageValue === 2) {
-                                    this.setState({
-                                        buttonValue: "Submit"
+                <View style={styles.buttonInline}>
+                    <Button title={this.state.buttonValue}
+                        onPress={() => {
+                            try {
+                                this.dataValidation()
+                                if (this.state.stage === 2) {
+                                    //This should display a modal
+                                    this.props.userUpdateLoginStatus();
+                                    this.props.userUpdateBasicInformation({
+                                        email: this.state.email,
+                                        firstName: this.state.firstName,
+                                        lastName: this.state.lastName,
+                                        loginMethod: "register"
                                     })
-                                }
-                            }
-                        } catch (err) {
-                            Alert.alert(
-                                'Error',
-                                err.toString()
-                            )
-                        }
+                                    this.props.navigation.popToTop();
+                                } else {
+                                    let newStageValue = this.state.stage + 1;
+                                    this.setState({
+                                        stage: newStageValue
+                                    })
 
-                    }}
-                />
+                                    if (newStageValue === 2) {
+                                        this.setState({
+                                            buttonValue: "Submit"
+                                        })
+                                    }
+                                }
+                            } catch (err) {
+                                Alert.alert(
+                                    'Error',
+                                    err.toString()
+                                )
+                            }
+
+                        }}
+                    />
+                </View>
             </View>
         )
     }
