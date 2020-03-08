@@ -10,7 +10,8 @@ const styles = StyleSheet.create({
     },
     h1: {
       fontSize: 30,
-      marginBottom: 20
+      marginBottom: 20,
+      textAlign: "center"
     },
     input: {
       borderWidth: 1,
@@ -50,6 +51,11 @@ const styles = StyleSheet.create({
     },
     pointsText: {
       fontSize: 25
+    },
+    cart: {
+      backgroundColor: '#fff',
+      width: '90%',
+      height: '75%'
     }
   });
 

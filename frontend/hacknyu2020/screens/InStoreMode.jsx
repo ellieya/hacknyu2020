@@ -31,6 +31,8 @@ class InStoreMode extends React.Component {
 
         //Check if on DNW List
 
+        //if upc found in list
+        
         //Push onto items list
         let tempItemsList = this.state.itemsList;
         tempItemsList.push({
@@ -48,7 +50,7 @@ class InStoreMode extends React.Component {
     printItemsList = (data) => {
         let itemsArr = [];
         for (let i = 0; i < this.state.itemsList.length; i++) {
-            itemsArr.push(<Text>{this.state.itemsList[i]}</Text>);
+            itemsArr.push(<Text key={i + this.state.itemsList[i].upc}>{this.state.itemsList[i].upc}</Text>);
         }
         console.log(itemsArr);
         return itemsArr;
@@ -79,8 +81,9 @@ class InStoreMode extends React.Component {
             case "cart":
                 return (
                     <View style={styles.container}>
-                        <View style={styles.cart}>
                         <Text style={styles.h1}>Cart</Text>
+                        <View style={styles.cart}>
+
                             {this.printItemsList()}
                         </View>
                         <View style={styles.buttonInline}>
