@@ -110,6 +110,8 @@ def addToBlock():
         user = getUser('email')
         ##add blocked_catigory to mongodb
         
-
+@app.route('/maketransaction')
+def makeTransaction():
+    pass
     
 app.run()

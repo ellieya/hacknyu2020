@@ -17,6 +17,9 @@ def get_images(upc_data):
 def get_category(upc_data):
     return upc_data.get('category')
 
+def get_name(upc_data):
+    return upc_data.get('title')
+
 
 def get_offers(upc_data):
     return upc_data.get('offers')
