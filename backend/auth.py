@@ -10,7 +10,7 @@ def sign_up(password1, password2):
     return hashed_pass, keys 
 
 def login(email, password):
-    user = getUser(email)
+    user = getUser(email) #Returns None if none
     result = verify_password(user["passwordHash"], password)
     if not result:
         raise Exception("Wrong email/password combination")
