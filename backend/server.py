@@ -1,6 +1,7 @@
 from flask import Flask, request
 import json
 from auth import sign_up, log_in
+
 from database_functions import *
 
 app = Flask(__name__)
@@ -62,10 +63,12 @@ def signup():
 @app.route('/login', methods=['POST', 'GET'])
 def login():
     if request.method == 'POST':
-        req_data = request.get_json()
+        #req_data = request.get_json()
+        req_data = {"email" : "yes@meme.com", "password" : "reeeee"}
         # Again do stuff with the info passed in
         try:
             result = log_in(req_data["email"], req_data["password"])
+  
         except Exception as e:
             print(e)
             return json.dumps({"error_message": e})

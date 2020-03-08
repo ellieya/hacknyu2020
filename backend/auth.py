@@ -12,6 +12,7 @@ def sign_up(password1, password2):
 def log_in(email, password):
     user = getUser(email)
     result = verify_password(user["password_hash"], password)
+
     if not result:
         raise Exception("Wrong email/password combination")
     return True
