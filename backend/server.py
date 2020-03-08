@@ -4,6 +4,7 @@ from auth import sign_up, log_in
 from lookup import *
 from getinfo import get_points
 from database_functions import *
+from Transaction import Transaction
 
 app = Flask(__name__)
 app.config["DEBUG"] = False
@@ -119,9 +120,11 @@ def isBlocked():
         upc_data = search_upc(req_data['upc'])
         blocked_category = get_category(upc_data)
         user = getUser('email')
+        out = isCategoryBlacklisted(user)
     except Exception as e:
             print(e)
             return json.dumps({"error_message": e})
+    return out
     
 
 # user_id - objectid - The object id of the user whose points balance is being queried.
@@ -133,13 +136,22 @@ def fetchPoints():
 
     return json.dumps({"points_balance": points_balance})
 
+@app.route('/blockcategory', methods=['POST'])
+def blockcategory():
+    user = request.args.get('user')
+    upc_data = search_upc(request.args.get(upc))
+    category = get_category(upc_data)
+    addBlacklistCategory(user, category)
 
 
-'''
+
+
+
 @app.route('/maketransaction')
 def makeTransaction():
-    pass
-'''
+    transaction = Transaction(request.args.get('user_id'), request.args.get('upcs_purchased'), request.args.get('upcs_rejected'), request.args.get('merchant'))
+    transaction.post_transaction()
+
 @app.route('/item', methods=['GET'])
 def getItem():
     upc = request.args.get("upc")
