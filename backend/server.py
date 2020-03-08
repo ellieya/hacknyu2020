@@ -1,6 +1,6 @@
 from flask import Flask, request
 import json
-from auth import sign_up, login
+from auth import sign_up, log_in
 from database_functions import *
 
 app = Flask(__name__)
@@ -52,16 +52,23 @@ def signup():
         bottom_text = "bottomtext"
     return
 
+# timestamp - date, or a string
+# user_id - the Id of the given user, to pull/insert into their transactions
+# cost_balance - number, the total of items actually purchased
+# savings_balance - number, the total of the items not purchased
+# vendor - string - the vendor or store where the transaction was made
+# items_purchased - array of dicts/jsons/maps containing {upc, item_name, unit_cost, total_cost}
+# unpurchased_items - an array of dicts/jsons/maps containing {upc, item_name, unit_cost, total_cost}
 @app.route('/login', methods=['POST', 'GET'])
 def login():
     if request.method == 'POST':
         req_data = request.get_json()
         # Again do stuff with the info passed in
         try:
-            result = login(req_data["email"], req_data["password"])
+            result = log_in(req_data["email"], req_data["password"])
         except Exception as e:
             print(e)
-            return json.dumps({"error_message": "Sign In Error"})
+            return json.dumps({"error_message": e})
         return json.dumps({"message": "Loggin in!"}) # This may not even be the way to do it but we will figure it out
     if request.method == 'GET':
         return """<h1> Fields are email and password </h1>"""

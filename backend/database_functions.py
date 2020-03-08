@@ -18,7 +18,7 @@ categories = db.categories # Item categories
 # first_name: str - the users first name
 # last_name: str - the users last name
 # password: password - user's chosen password. Hopefully we can just store a hash or some shit
-def makeUser(email, first_name, last_name, password_hash, pub_key, priv_key):
+def makeUser(email, first_name, last_name, password_hash, public_key, private_key):
     #bop
 
     new_user = { "email": email,
@@ -47,25 +47,32 @@ def getUser(email):
     user = users.find_one({"email": email})
     return user
 
-# user: user object  - the user themself
-# items: list of item documents 
-# total: number - the total of the transacton
-# store_id: the id of the store the user bought their stuff at.
-def addTransaction(user, items, total, store_id):
+# timestamp - date, or a string
+# user_id - the Id of the given user, to pull/insert into their transactions
+# cost_balance - number, the total of items actually purchased
+# savings_balance - number, the total of the items not purchased
+# vendor - string - the vendor or store where the transaction was made
+# items_purchased - array of dicts/jsons/maps containing {upc, item_name, unit_cost, total_cost}
+# unpurchased_items - an array of dicts/jsons/maps containing {upc, item_name, unit_cost, total_cost}
+def addTransaction(user_id, timestamp, cost_balance, savings_balance, vendor, items_purchased, unpurchased_items):
     # also bop
 
-    # Items comes assembled
-    # total comes calculated
     # constant thoughts
     # head infinite
 
 
-    # consider that items may be:
+    # There is a reality to face
+    # the upc API has items names and categories
+    # the 
 
     new_transaction = {
-        "store": store,
-        "items": items,
-        "total": total
+        "user_id": user_id,
+        "timestamp": timestamp,
+        "cost_balance": cost_balance,
+        "savings_balance": savings_balance,
+        "vendor": vendor,
+        "items_purchased": items_purchased, # not exactly
+        "unpurchased_items": unpurchased_items
     }
 
     users.transactions.append(new_transaction)
