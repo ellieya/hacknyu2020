@@ -63,7 +63,6 @@ def login():
         return json.dumps({"message": "Loggin in!"}) # This may not even be the way to do it but we will figure it out
     if request.method == 'GET':
         return """<h1> Fields are email and password </h1>"""
-        
 # Expected Arguments
 # timestamp - date, or a string
 # user_id - the Id of the given user, to pull/insert into their transactions
