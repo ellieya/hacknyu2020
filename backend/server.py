@@ -1,9 +1,10 @@
-import flask
+#import flask
+from flask import Flask, request
 import json
 from auth import sign_up, login
 from database_functions import *
 
-app = flask.Flask(__name__)
+app = Flask(__name__)
 app.config["DEBUG"] = True
 
 # what is needed
